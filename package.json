@@ -1,0 +1,19 @@
+{
+  "name": "hordaland",
+  "version": "0.0.1",
+  "description": "A service that returns the name of your (IP's) region.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boyum/hordaland.git"
+  },
+  "author": "Sindre Bøyum @boyum",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/boyum/hordaland/issues"
+  },
+  "homepage": "https://github.com/boyum/hordaland#readme"
+}
