@@ -1,7 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const http = require("http");
-const text2png = require("text2png");
+const Canvas = require("canvas");
+// const text2png = require("text2png");
 
 const app = express();
 
@@ -27,21 +28,15 @@ app.get("/", (req, res) => {
 
       const img = createImage(parsed.regionName);
 
-      res.send(
-        `<!doctype html>\n<html>\n<head>\n<title>${parsed.regionName}</title>\n</head>\n<body>\n<img src="out.png" alt="${parsed.regionName}" />\n</body>\n</html>`
-      );
+      res.type('png');
+      res.send(createImage(parsed.regionName));
+      // res.send(
+      //   `<!doctype html>\n<html>\n<head>\n<title>${parsed.regionName}</title>\n</head>\n<body>\n<img src="${createImage(parsed.regionName)}" alt="${parsed.regionName}" />\n</body>\n</html>`
+      // );
     });
   });
 
   ipRequest.end();
-  // var xhr = new XMLHttpRequest();
-  // xhr.addEventListener('load', reqListener);
-  // xhr.open('GET', `http://ip-api.com/json/${ip}`);
-  // xhr.send();
-  // function reqListener() {
-  //   regionName = JSON.parse(this.responseText).regionName;
-  //   res.send(regionName);
-  // }
   // http://stackoverflow.com/questions/19074727/how-can-i-make-ajax-requests-using-the-express-framework
 });
 
@@ -49,17 +44,28 @@ app.listen(3000, () => {
   console.log("Server is up");
 });
 
-function getRegionName(ip) {}
+
+// function createImage(text) {
+//   fs.writeFileSync(
+//     "out.png",
+//     text2png(text, {
+//       font: "80px sans-serif",
+//       textColor: "teal",
+//       bgColor: "linen",
+//       lineSpacing: 10,
+//       padding: 20
+//     })
+//   );
+// }
 
 function createImage(text) {
-  fs.writeFileSync(
-    "out.png",
-    text2png(text, {
-      font: "80px sans-serif",
-      textColor: "teal",
-      bgColor: "linen",
-      lineSpacing: 10,
-      padding: 20
-    })
-  );
+  const canvas = new Canvas();
+  const ctx = canvas.getContext();
+  const width = ctx.measureText(text).width;
+  const height = ctx.measureText(text).height;
+
+  canvas.width = width;
+  canvas.height = height;
+
+  return canvas.toDataURL();
 }
